@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:two_theme_styles/models/character.dart';
+import 'package:provider/provider.dart';
 import 'package:two_theme_styles/screens/create/create.dart';
 import 'package:two_theme_styles/shared/character_card.dart';
 // shared widgets
 import 'package:two_theme_styles/shared/styled_button.dart';
 import 'package:two_theme_styles/shared/styled_text.dart';
+import 'package:two_theme_styles/state/character_store.dart';
 
 class Home extends StatefulWidget {
   Home({super.key});
@@ -14,8 +15,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // List characters = ['mario', 'luigi', 'peach', 'toad', 'bowser', 'koopa'];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,27 +27,21 @@ class _HomeState extends State<Home> {
           child: Column(
             children: [
               Expanded(
-                child: ListView.builder(
-                  itemCount: characters.length,
-                  itemBuilder: (_, index) {
-                    return CharacterCard(characters[index]);
-                    // return Container(
-                    //   color: Colors.grey[800],
-                    //   padding: const EdgeInsets.all(40),
-                    //   margin: const EdgeInsets.only(bottom: 40),
-                    //   child: Text(characters[index])
-                    // );
-                  },
-                ),
+                // we added consumer here, because we only need the data in this list
+                child: Consumer<CharacterStore>(builder: (context, value, child) {
+                  return ListView.builder(
+                    itemCount: value.characters.length,
+                    itemBuilder: (_, index) {
+                      return CharacterCard(value.characters[index]);
+                    },
+                  );
+                }),
               ),
               StyledButton(
                   onPressed: () {
                     // navigate to create page
                     Navigator.push(context,
-                      MaterialPageRoute(
-                        builder: (ctx) => const Create()
-                      )
-                    );
+                        MaterialPageRoute(builder: (ctx) => const CreatePage()));
                   },
                   child: const StyledHeading("Create New"))
             ],

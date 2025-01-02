@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:two_theme_styles/_theme.dart';
 import 'package:two_theme_styles/models/character.dart';
 import 'package:two_theme_styles/models/vocationEnum.dart';
@@ -7,18 +8,19 @@ import 'package:two_theme_styles/screens/create/vocation_card.dart';
 import 'package:two_theme_styles/screens/home/home.dart';
 import 'package:two_theme_styles/shared/styled_button.dart';
 import 'package:two_theme_styles/shared/styled_text.dart';
+import 'package:two_theme_styles/state/character_store.dart';
 import 'package:uuid/uuid.dart';
 
 var uuid = const Uuid();
 
-class Create extends StatefulWidget {
-  const Create({super.key});
+class CreatePage extends StatefulWidget {
+  const CreatePage({super.key});
 
   @override
-  State<Create> createState() => _CreateState();
+  State<CreatePage> createState() => _CreatePageState();
 }
 
-class _CreateState extends State<Create> {
+class _CreatePageState extends State<CreatePage> {
   final _nameController = TextEditingController();
   final _sloganController = TextEditingController();
 
@@ -67,11 +69,22 @@ class _CreateState extends State<Create> {
       return;
     }
 
-    characters.add(Character(
-        id: uuid.v4(),
-        name: _nameController.text.trim(),
-        slogan: _sloganController.text.trim(),
-        vocation: selectedVocation));
+    // characters.add(Character(
+    //     id: uuid.v4(),
+    //     name: _nameController.text.trim(),
+    //     slogan: _sloganController.text.trim(),
+    //     vocation: selectedVocation));
+
+  // add character to store
+    Provider.of<CharacterStore>(context, listen: false)
+      .addCharacter(
+        Character(
+          id: uuid.v4(),
+          name: _nameController.text.trim(),
+          slogan: _sloganController.text.trim(),
+          vocation: selectedVocation
+        )
+      );
 
     Navigator.push(context, MaterialPageRoute(builder: (ctx) => Home()));
   }

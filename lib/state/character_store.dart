@@ -3,7 +3,6 @@ import 'package:two_theme_styles/models/character.dart';
 import 'package:two_theme_styles/models/vocationEnum.dart';
 
 class CharacterStore extends ChangeNotifier {
-  
   final List<Character> _characters = [
     Character(
         id: '1', name: 'Klara', slogan: 'Kapmuf!', vocation: Vocation.wizard),
@@ -25,4 +24,10 @@ class CharacterStore extends ChangeNotifier {
   ];
 
   get characters => _characters;
+
+  // add character
+  void addCharacter(Character character) {
+    _characters.add(character);
+    notifyListeners();
+  }
 }
