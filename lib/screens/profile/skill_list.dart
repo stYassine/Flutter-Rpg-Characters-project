@@ -25,10 +25,10 @@ class _SkillListState extends State<SkillList> {
       return skill.vocation == widget.character.vocation;
     }).toList();
 
-    if(widget.character.skills.isEmpty) {
+    if (widget.character.skills.isEmpty) {
       selectedSkill = availableSkills[0];
     }
-    if(widget.character.skills.isNotEmpty) {
+    if (widget.character.skills.isNotEmpty) {
       selectedSkill = widget.character.skills.first;
     }
 
@@ -52,14 +52,27 @@ class _SkillListState extends State<SkillList> {
                 return Container(
                   margin: const EdgeInsets.all(5),
                   padding: const EdgeInsets.all(2),
-                  child: Image.asset(
-                    'assets/images/${skill.image}',
-                    width: 70,
+                  color: skill == selectedSkill
+                      ? Colors.yellow
+                      : Colors.transparent,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        widget.character.updateSkill(skill);
+                        selectedSkill = skill;
+                      });
+                    },
+                    child: Image.asset(
+                      'assets/images/${skill.image}',
+                      width: 70,
+                    ),
                   ),
                 );
               }).toList(),
             ),
-            const SizedBox(height: 10)
+            const SizedBox(height: 10),
+            StyledText(selectedSkill.name)
+            
           ],
         ),
       ),

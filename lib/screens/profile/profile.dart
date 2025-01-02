@@ -3,6 +3,7 @@ import 'package:two_theme_styles/_theme.dart';
 import 'package:two_theme_styles/models/character.dart';
 import 'package:two_theme_styles/screens/profile/skill_list.dart';
 import 'package:two_theme_styles/screens/profile/stats_table.dart';
+import 'package:two_theme_styles/shared/styled_button.dart';
 import 'package:two_theme_styles/shared/styled_text.dart';
 
 class Profile extends StatelessWidget {
@@ -84,9 +85,23 @@ class Profile extends StatelessWidget {
               ),
              ),
 
-
-
              // save button
+            StyledButton(
+              onPressed: (){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: StyledHeading("Character was Saved!"),
+                    showCloseIcon: true,
+                    duration: const Duration(seconds: 2),
+                    backgroundColor: AppColors.secondaryColor,
+                  )
+                );
+              }, 
+              child: const StyledHeading("Save character")
+            ),
+
+            const SizedBox(height: 20),
+
 
           ],
         ),
